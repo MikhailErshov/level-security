@@ -43,7 +43,7 @@ class IdentitySerializer implements IdentitySerializerInterface
 			$publicKey = file_get_contents(__DIR__ . '/public.key');
 		}
 
-		$claims = $this->jwtEncoder->decode($publicKey);
+		$claims = $this->jwtEncoder->decode($jwt, $publicKey);
 		$identity = $this->stringToIdentity($claims[self::IDENTITY_CLAIM_NAME]);
 
 		return $identity;
