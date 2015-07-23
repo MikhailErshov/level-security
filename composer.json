@@ -1,5 +1,5 @@
 {
-    "name": "Eyelevel/Security",
+    "name": "level/security",
     "version": "1.0.0",
     "description": "Shared security package for Eyelevel applications",
     "require": {
