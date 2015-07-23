@@ -1,7 +1,7 @@
 {
     "name": "level/security",
     "version": "1.0.0",
-    "description": "Shared security package for Eyelevel applications",
+    "description": "Shared security package for level applications",
     "require": {
         "nette/nette": "~2.2.0"
     },
