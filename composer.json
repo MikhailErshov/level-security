@@ -2,6 +2,7 @@
     "name": "level/security",
     "version": "1.0.0",
     "description": "Shared security package for level applications",
+    "license": ["MIT"],
     "require": {
         "nette/nette": "~2.2.0"
     },
