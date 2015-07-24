@@ -77,6 +77,8 @@ class UnsecuredBasePresenter extends Presenter
 		];
 
 		$refUrl = new Nette\Http\Url($httpRequest->getUrl());
+		$refUrl->setPath($httpRequest->getUrl()->getScriptPath());
+
 		return $this->router->constructUrl(new Request($module . ':' . $presenter, Request::FORWARD, $params), $refUrl);
 	}
 

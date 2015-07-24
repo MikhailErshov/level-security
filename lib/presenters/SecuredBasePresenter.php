@@ -24,6 +24,6 @@ abstract class SecuredBasePresenter extends UnsecuredBasePresenter
 		$this->getUser()->logout(TRUE);
 		$this->flashMessage('You have been signed out.');
 
-		$this->redirectToLogin($this->constructActionUrl($this->getDefaultAction()));
+		$this->redirectToLogout($this->constructActionUrl($this->getDefaultAction()));
 	}
 }

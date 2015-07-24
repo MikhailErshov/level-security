@@ -1,6 +1,6 @@
 {
     "name": "level/security",
-    "version": "1.0.10",
+    "version": "1.0.11",
     "description": "Shared security package for level applications",
     "license": ["MIT"],
     "require": {
