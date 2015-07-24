@@ -32,7 +32,7 @@ class UnsecuredBasePresenter extends Presenter
 		$this->getSession('default')->redirectLinkUrl = $redirectLink;
 
 		$loginUrl = $this->getLoginUrl();
-		$consumeUrl = $this->constructUrl('Frontend:AssertionConsumer', 'consume');
+		$consumeUrl = $this->constructActionUrl($this->getConsumeAction());
 
 		$this->redirectUrl($loginUrl . '?acsUrl=' . $consumeUrl);
 	}
@@ -47,8 +47,20 @@ class UnsecuredBasePresenter extends Presenter
 		return $this->context->getParameters()['sso']['logoutUrl'];
 	}
 
-	protected function constructUrl($presenter, $action)
+	protected function getDefaultAction()
 	{
+		return $this->context->getParameters()['sso']['defaultAction'];
+	}
+
+	protected function getConsumeAction()
+	{
+		return $this->context->getParameters()['sso']['consumeAction'];
+	}
+
+	protected function constructActionUrl($fullActionLink)
+	{
+		list($module, $presenter, $action) = explode(':', $fullActionLink);
+
 		$httpRequest = $this->getHttpRequest();
 
 		$params = [
@@ -56,7 +68,7 @@ class UnsecuredBasePresenter extends Presenter
 		];
 
 		$refUrl = new Nette\Http\Url($httpRequest->getUrl());
-		return $this->router->constructUrl(new Request($presenter, Request::FORWARD, $params), $refUrl);
+		return $this->router->constructUrl(new Request($module . ':' . $presenter, Request::FORWARD, $params), $refUrl);
 	}
 
 	/**

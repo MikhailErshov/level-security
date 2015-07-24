@@ -15,21 +15,7 @@ abstract class SecuredBasePresenter extends UnsecuredBasePresenter
 		parent::startup();
 
 		if (!$this->user->isLoggedIn()) {
-			$httpRequest =$this->getHttpRequest();
-			$this->getSession('default')->redirectLinkUrl = $httpRequest->getUrl()->getAbsoluteUrl();
-
-			$params = [
-				Nette\Application\UI\Presenter::ACTION_KEY => 'consume'
-			];
-
-			$this->router = $this->context->getService('router');
-			$refUrl = new Nette\Http\Url($httpRequest->getUrl());
-			$url = $this->router->constructUrl(
-				new Request('Frontend:AssertionConsumer', Nette\Application\Request::FORWARD, $params),
-				$refUrl);
-
-			$loginUrl = $this->context->getParameters()['sso']['loginUrl'];
-			$this->redirectUrl($loginUrl . '?acsUrl=' . $url);
+			$this->redirectToLogin();
 		}
 	}
 
@@ -37,6 +23,7 @@ abstract class SecuredBasePresenter extends UnsecuredBasePresenter
 	{
 		$this->getUser()->logout(TRUE);
 		$this->flashMessage('You have been signed out.');
-		$this->redirect('in');
+
+		$this->redirectToLogin($this->getDefaultAction());
 	}
 }

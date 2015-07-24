@@ -34,7 +34,7 @@ abstract class AssertionConsumerPresenter extends UnsecuredBasePresenter
 		if (($url = $this->getSession('default')->redirectLinkUrl) !== NULL) {
 			$this->redirectUrl($url);
 		} else {
-			$this->redirect($this->context->getParameters()['sso']['defaultPage']);
+			$this->redirect($this->getDefaultAction());
 		}
 	}
 
