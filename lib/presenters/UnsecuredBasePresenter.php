@@ -26,15 +26,24 @@ class UnsecuredBasePresenter extends Presenter
 
 	protected function redirectToLogin($redirectLink = NULL)
 	{
+		$this->redirectToIdentityProvider($this->getLoginUrl(), $redirectLink);
+	}
+
+	protected function redirectToLogout($redirectLink = NULL)
+	{
+		$this->redirectToIdentityProvider($this->getLogoutUrl(), $redirectLink);
+	}
+
+	private function redirectToIdentityProvider($url, $redirectLink = NULL)
+	{
 		if ($redirectLink === NULL) {
 			$redirectLink = $this->getHttpRequest()->getUrl()->getAbsoluteUrl();
 		}
 		$this->getSession('default')->redirectLinkUrl = $redirectLink;
 
-		$loginUrl = $this->getLoginUrl();
 		$consumeUrl = $this->constructActionUrl($this->getConsumeAction());
 
-		$this->redirectUrl($loginUrl . '?acsUrl=' . $consumeUrl);
+		$this->redirectUrl($url . '?acsUrl=' . $consumeUrl);
 	}
 
 	protected function getLoginUrl()
