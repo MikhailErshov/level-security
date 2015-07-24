@@ -6,7 +6,7 @@ use Nette\InvalidArgumentException;
 
 class JwtEncoder
 {
-	public function encode($payload, $key, $algo = 'HS256')
+	public function encode($payload, $key, $algo = 'RS256')
 	{
 		$header = array('typ' => 'JWT', 'alg' => $algo);
 
@@ -59,7 +59,7 @@ class JwtEncoder
 		return $payload;
 	}
 
-	private function verifySignature($signature, $input, $key, $algo = 'HS256')
+	private function verifySignature($signature, $input, $key, $algo = 'RS256')
 	{
 		switch ($algo) {
 			case'HS256':
@@ -81,7 +81,7 @@ class JwtEncoder
 		}
 	}
 
-	private function sign($input, $key, $algo = 'HS256')
+	private function sign($input, $key, $algo = 'RS256')
 	{
 		switch ($algo) {
 			case 'HS256':
