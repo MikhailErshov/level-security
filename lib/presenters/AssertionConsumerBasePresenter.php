@@ -9,7 +9,7 @@ use Nette\Application\UI\Presenter;
 
 use eyelevel\security\IdentitySerializerInterface;
 
-abstract class AssertionConsumerPresenter extends UnsecuredBasePresenter
+abstract class AssertionConsumerBasePresenter extends UnsecuredBasePresenter
 {
 	/** @var IdentitySerializerInterface */
 	protected $identitySerializer;
