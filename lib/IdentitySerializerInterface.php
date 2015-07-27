@@ -3,15 +3,16 @@
 namespace eyelevel\security;
 
 use Nette\Security\Identity;
+use Nette\Security\IIdentity;
 
 interface IdentitySerializerInterface
 {
 	/**
-	 * @param Identity $identity
+	 * @param IIdentity $identity
 	 * @param $privateKey
 	 * @return string
 	 */
-	public function serialize(Identity $identity, $privateKey);
+	public function serialize(IIdentity $identity, $privateKey);
 
 	/**
 	 * @param string $jwt
