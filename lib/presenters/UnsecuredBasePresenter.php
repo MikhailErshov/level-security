@@ -40,9 +40,14 @@ class UnsecuredBasePresenter extends Presenter
 	protected function redirectToLogout($redirectUrl = NULL)
 	{
 		if ($redirectUrl === NULL) {
-			$redirectUrl = $this->constructActionUrl($this->getSsoParameter('defaultAction'));
+			$redirectUrl = $this->getDefaultActionUrl();
 		}
 		$this->redirectUrl($this->getSsoParameter('logoutUrl') . '?redirectTo=' . $redirectUrl);
+	}
+
+	protected function getDefaultActionUrl()
+	{
+		return $this->constructActionUrl($this->getSsoParameter('defaultAction'));
 	}
 
 	private function getSsoParameter($parameter)
