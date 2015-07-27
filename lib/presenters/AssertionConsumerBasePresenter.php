@@ -31,11 +31,13 @@ abstract class AssertionConsumerBasePresenter extends UnsecuredBasePresenter
 			$this->redirectToLogin();
 		}
 
-		if (($url = $this->getSession('default')->redirectLinkUrl) !== NULL) {
-			$this->redirectUrl($url);
-		} else {
-			$this->redirect($this->getDefaultAction());
+		if (($url = $this->getSession('default')->redirectUrl) !== NULL) {
+			if ($this->getLoginUrl !== $url) {
+				$this->redirectUrl($url);
+			}
 		}
+
+		$this->redirect($this->getDefaultAction());
 	}
 
 	/**

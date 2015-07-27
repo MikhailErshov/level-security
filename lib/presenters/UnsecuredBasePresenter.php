@@ -18,55 +18,39 @@ class UnsecuredBasePresenter extends Presenter
 	protected function startup()
 	{
 		parent::startup();
-		if ($this->user->storage instanceof Nette\Http\UserStorage) {
+		$storage = $this->getUser()->getStorage();
+		if ($storage instanceof Nette\Http\UserStorage) {
 			// If you have more projects in one virtual host than there is a problem with sessions
-			$this->getUser()->getStorage()->setNamespace(dirname(APP_DIR . '/../'));
+			$storage->setNamespace(dirname(APP_DIR . '/../'));
 		}
 	}
 
-	protected function redirectToLogin($redirectLink = NULL)
+	protected function redirectToLogin($redirectUrl = NULL)
 	{
-		$this->redirectToIdentityProvider($this->getLoginUrl(), $redirectLink);
-	}
-
-	protected function redirectToLogout($redirectLink = NULL)
-	{
-		$this->redirectToIdentityProvider($this->getLogoutUrl(), $redirectLink);
-	}
-
-	private function redirectToIdentityProvider($url, $redirectLink = NULL)
-	{
-		if ($redirectLink === NULL) {
-			$redirectLink = $this->getHttpRequest()->getUrl()->getAbsoluteUrl();
+		if ($redirectUrl === NULL) {
+			$redirectUrl = $this->getHttpRequest()->getUrl()->getAbsoluteUrl();
 		}
-		$this->getSession('default')->redirectLinkUrl = $redirectLink;
+		$this->getSession('default')->$redirectUrl = $redirectUrl;
 
-		$consumeUrl = $this->constructActionUrl($this->getConsumeAction());
+		$consumeUrl = $this->constructActionUrl($this->getSsoParameter('consumeAction'));
 
-		$this->redirectUrl($url . '?acsUrl=' . $consumeUrl);
+		$this->redirectUrl($this->getSsoParameter('loginUrl') . '?acsUrl=' . $consumeUrl);
 	}
 
-	protected function getLoginUrl()
+	protected function redirectToLogout($redirectUrl = NULL)
 	{
-		return $this->context->getParameters()['sso']['loginUrl'];
+		if ($redirectUrl === NULL) {
+			$redirectUrl = $this->constructActionUrl($this->getSsoParameter('defaultAction'));
+		}
+		$this->redirectUrl($this->getSsoParameter('logoutUrl') . '?redirectTo=' . $redirectUrl);
 	}
 
-	protected function getLogoutUrl()
+	private function getSsoParameter($parameter)
 	{
-		return $this->context->getParameters()['sso']['logoutUrl'];
+		return $this->context->getParameters()['sso'][$parameter];
 	}
 
-	protected function getDefaultAction()
-	{
-		return $this->context->getParameters()['sso']['defaultAction'];
-	}
-
-	protected function getConsumeAction()
-	{
-		return $this->context->getParameters()['sso']['consumeAction'];
-	}
-
-	protected function constructActionUrl($fullActionLink)
+	private function constructActionUrl($fullActionLink)
 	{
 		list($module, $presenter, $action) = explode(':', $fullActionLink);
 
