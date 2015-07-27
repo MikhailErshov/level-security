@@ -37,7 +37,7 @@ abstract class AssertionConsumerBasePresenter extends UnsecuredBasePresenter
 			}
 		}
 
-		$this->redirect($this->getDefaultActionUrl());
+		$this->redirectUrl($this->getDefaultActionUrl());
 	}
 
 	/**

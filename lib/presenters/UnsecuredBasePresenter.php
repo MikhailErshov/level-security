@@ -42,6 +42,8 @@ class UnsecuredBasePresenter extends Presenter
 		if ($redirectUrl === NULL) {
 			$redirectUrl = $this->getDefaultActionUrl();
 		}
+		$this->getSession('default')->$redirectUrl = $redirectUrl;
+
 		$this->redirectUrl($this->getSsoParameter('logoutUrl') . '?redirectTo=' . $redirectUrl);
 	}
 
